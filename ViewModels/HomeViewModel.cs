@@ -88,7 +88,34 @@ public class HomeViewModel : INotifyPropertyChanged
         _pollingTimer.AutoReset = true;
         _pollingTimer.Start();
 
-        Task.Run(RefreshTelemetryAsync);
+        _ = Task.Run(InitializeAsync);
+    }
+
+    private async Task InitializeAsync()
+    {
+        await AppPermissions.RequestNotificationPermissionAsync();
+        StartForegroundService();
+        await RefreshTelemetryAsync();
+    }
+
+    private static void StartForegroundService()
+    {
+#if ANDROID
+        try
+        {
+            var context = Android.App.Application.Context;
+            var intent = new Android.Content.Intent(context, typeof(Platforms.Android.A52ForegroundService));
+            if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
+            {
+                context.StartForegroundService(intent);
+            }
+            else
+            {
+                context.StartService(intent);
+            }
+        }
+        catch { }
+#endif
     }
 
     private async Task RefreshTelemetryAsync()

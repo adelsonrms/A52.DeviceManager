@@ -9,9 +9,20 @@ while true; do
     slots=$(dumpsys input 2>/dev/null | grep -c 'inUse=true')
     scrub=$(cat /sys/class/sec/tsp/scrub_pos 2>/dev/null)
     uptime_str=$(uptime 2>/dev/null)
-    
-    printf "{\"hw\":\"%s\",\"sens\":\"%s\",\"slots\":%s,\"scrub\":\"%s\",\"uptime\":\"%s\",\"timestamp\":%s}\n" \
-        "$hw" "$sens" "$slots" "$scrub" "$uptime_str" "$(date +%s)" > "$APP_DIR/telemetry.json.tmp"
+
+    # Extrair TNOI, TMUL, TWET como inteiros limpos
+    tnoi=$(echo "$hw" | sed -n 's/.*"TNOI":"\([0-9]*\)".*/\1/p')
+    tmul=$(echo "$hw" | sed -n 's/.*"TMUL":"\([0-9]*\)".*/\1/p')
+    twet=$(echo "$hw" | sed -n 's/.*"TWET":"\([0-9]*\)".*/\1/p')
+    [ -z "$tnoi" ] && tnoi=0
+    [ -z "$tmul" ] && tmul=0
+    [ -z "$twet" ] && twet=0
+    [ -z "$slots" ] && slots=0
+
+    # Gravar JSON valido sem aspas quebras
+    cat <<EOF > "$APP_DIR/telemetry.json.tmp"
+{"tnoi":$tnoi,"tmul":$tmul,"twet":$twet,"sens":"$sens","slots":$slots,"scrub":"$scrub","uptime":"$uptime_str","timestamp":$(date +%s)}
+EOF
     mv "$APP_DIR/telemetry.json.tmp" "$APP_DIR/telemetry.json"
     
     # 2. Check for commands

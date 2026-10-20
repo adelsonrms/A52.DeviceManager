@@ -26,6 +26,14 @@ public class LocalKernelService : IA52DeviceService
         return "/storage/emulated/0/Android/data/com.devonno.a52/files";
     }
 
+    private static int GetIntProp(JsonElement el, string prop)
+    {
+        if (!el.TryGetProperty(prop, out var v)) return 0;
+        if (v.ValueKind == JsonValueKind.Number) return v.GetInt32();
+        if (v.ValueKind == JsonValueKind.String && int.TryParse(v.GetString(), out int n)) return n;
+        return 0;
+    }
+
     public async Task<TspTelemetry> PollTelemetryAsync(CancellationToken ct = default)
     {
         string appDir = GetAppFilesDir();
@@ -42,19 +50,25 @@ public class LocalKernelService : IA52DeviceService
                     using var doc = JsonDocument.Parse(jsonStr);
                     var root = doc.RootElement;
 
-                    string hwRaw = root.TryGetProperty("hw", out var hwElem) ? hwElem.GetString() ?? "" : "";
+                    int tnoi = GetIntProp(root, "tnoi");
+                    int tmul = GetIntProp(root, "tmul");
+                    int twet = GetIntProp(root, "twet");
+                    int slots = GetIntProp(root, "slots");
                     string sensRaw = root.TryGetProperty("sens", out var sensElem) ? sensElem.GetString() ?? "" : "";
-                    int slots = root.TryGetProperty("slots", out var slotsElem) ? slotsElem.GetInt32() : 0;
                     string scrubRaw = root.TryGetProperty("scrub", out var scrubElem) ? scrubElem.GetString() ?? "" : "";
                     string uptimeRaw = root.TryGetProperty("uptime", out var upElem) ? upElem.GetString() ?? "" : "";
 
-                    int tnoi = 0, tmul = 0, twet = 0;
-                    var matchHw = Regex.Match(hwRaw, @"""TMUL"":""(\d+)"",""TWET"":""(\d+)"",""TNOI"":""(\d+)""");
-                    if (matchHw.Success)
+                    // Suporte retrocompatível se vier encapsulado em "hw"
+                    if (tnoi == 0 && tmul == 0 && twet == 0 && root.TryGetProperty("hw", out var hwElem))
                     {
-                        int.TryParse(matchHw.Groups[1].Value, out tmul);
-                        int.TryParse(matchHw.Groups[2].Value, out twet);
-                        int.TryParse(matchHw.Groups[3].Value, out tnoi);
+                        string hwRaw = hwElem.GetString() ?? "";
+                        var matchHw = Regex.Match(hwRaw, @"""TMUL"":""?(\d+)""?.*""TWET"":""?(\d+)""?.*""TNOI"":""?(\d+)""?");
+                        if (matchHw.Success)
+                        {
+                            int.TryParse(matchHw.Groups[1].Value, out tmul);
+                            int.TryParse(matchHw.Groups[2].Value, out twet);
+                            int.TryParse(matchHw.Groups[3].Value, out tnoi);
+                        }
                     }
 
                     int[] nodes = new int[9];
@@ -67,7 +81,7 @@ public class LocalKernelService : IA52DeviceService
                     var telemetry = new TspTelemetry
                     {
                         DeviceConnected = true,
-                        DeviceSerial = "Galaxy A52 (Daemon OK)",
+                        DeviceSerial = "Galaxy A52 (Daemon Ativo)",
                         Uptime = uptimeRaw.Trim(),
                         Tnoi = tnoi,
                         Tmul = tmul,
@@ -95,7 +109,7 @@ public class LocalKernelService : IA52DeviceService
             string scrubRaw = ReadSysfs("/sys/class/sec/tsp/scrub_pos");
 
             int tnoi = 0, tmul = 0, twet = 0;
-            var matchHw = Regex.Match(hwRaw, @"""TMUL"":""(\d+)"",""TWET"":""(\d+)"",""TNOI"":""(\d+)""");
+            var matchHw = Regex.Match(hwRaw, @"""TMUL"":""?(\d+)""?.*""TWET"":""?(\d+)""?.*""TNOI"":""?(\d+)""?");
             if (matchHw.Success)
             {
                 int.TryParse(matchHw.Groups[1].Value, out tmul);
@@ -113,8 +127,8 @@ public class LocalKernelService : IA52DeviceService
             var telemetry = new TspTelemetry
             {
                 DeviceConnected = true,
-                DeviceSerial = "Galaxy A52 (Daemon Offline)",
-                Uptime = "Acesso Direto ao Kernel",
+                DeviceSerial = "Galaxy A52 (Acesso Kernel)",
+                Uptime = "Modo Local Direto",
                 Tnoi = tnoi,
                 Tmul = tmul,
                 Twet = twet,
@@ -130,9 +144,9 @@ public class LocalKernelService : IA52DeviceService
         {
             var telemetry = new TspTelemetry
             {
-                DeviceConnected = false,
-                DeviceSerial = "Galaxy A52 (Offline)",
-                Uptime = "Sem Acesso ao Kernel"
+                DeviceConnected = true,
+                DeviceSerial = "Dispositivo (Sem Sensores TSP)",
+                Uptime = "Ambiente Genérico / Emulador"
             };
             TelemetryUpdated?.Invoke(this, telemetry);
             return telemetry;
@@ -172,7 +186,7 @@ public class LocalKernelService : IA52DeviceService
 
             await File.WriteAllTextAsync(cmdPath, command, ct);
 
-            // Aguarda resultado retornado pelo daemon por até 3 segundos
+            // Aguarda resultado retornado pelo daemon por até 3.5 segundos
             var sw = System.Diagnostics.Stopwatch.StartNew();
             while (sw.ElapsedMilliseconds < 3500)
             {
