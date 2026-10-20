@@ -19,13 +19,15 @@ public static class MauiProgram
                 fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
             });
 
+#if ANDROID
+        builder.Services.AddSingleton<IA52DeviceService, LocalKernelService>();
+#else
         builder.Services.AddSingleton<IA52DeviceService, AdbDeviceService>();
-        builder.Services.AddSingleton<HomeViewModel>();
-        builder.Services.AddSingleton<HomePage>();
-
-#if WINDOWS
         builder.Services.AddSingleton<A52.DeviceManager.Platforms.Windows.WindowsTrayService>();
 #endif
+
+        builder.Services.AddSingleton<HomeViewModel>();
+        builder.Services.AddSingleton<HomePage>();
 
 #if DEBUG
         builder.Logging.AddDebug();
