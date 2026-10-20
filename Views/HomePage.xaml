@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:A52.DeviceManager.Views"
+             xmlns:vm="clr-namespace:A52.DeviceManager.ViewModels"
+             x:Class="A52.DeviceManager.Views.HomePage"
+             x:DataType="vm:HomeViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}">
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Header -->
+        <views:HeaderView Grid.Row="0" Title="Painel de Controle e Diagnóstico" />
+
+        <!-- Conteúdo Principal com Scroll -->
+        <ScrollView Grid.Row="1" Padding="20">
+            <VerticalStackLayout Spacing="16" MaximumWidthRequest="750">
+
+                <!-- Barra de Status / Uptime -->
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                        Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="16,12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="DISPOSITIVO CONECTADO (ADB)"
+                                   FontSize="11" FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+                            <Label Text="{Binding Telemetry.DeviceSerial}"
+                                   FontSize="15" FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}" />
+                            <Label Text="{Binding Telemetry.Uptime}"
+                                   FontSize="12"
+                                   TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1" Text="Atualizar"
+                                Command="{Binding RefreshCommand}"
+                                HeightRequest="36" Padding="14,0"
+                                FontSize="12" />
+                    </Grid>
+                </Border>
+
+                <!-- Cards de Status dos Subsistemas -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <!-- Status Biometria -->
+                    <Border Grid.Column="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                            Stroke="{Binding BioBadgeColor}"
+                            StrokeThickness="1.5"
+                            StrokeShape="RoundRectangle 10"
+                            Padding="16">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="LEITOR BIOMÉTRICO (FOD)"
+                                   FontSize="11" FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+                            <Label Text="{Binding Telemetry.BiometricStatusText}"
+                                   FontSize="14" FontAttributes="Bold"
+                                   TextColor="{Binding BioBadgeColor}" />
+                            <Label Text="Gatilho óptico GW9578" FontSize="11"
+                                   TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Status Touch -->
+                    <Border Grid.Column="1"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                            Stroke="{Binding TouchBadgeColor}"
+                            StrokeThickness="1.5"
+                            StrokeShape="RoundRectangle 10"
+                            Padding="16">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="PAINEL TOUCH (STM5CU56)"
+                                   FontSize="11" FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+                            <Label Text="{Binding Telemetry.TouchStatusText}"
+                                   FontSize="14" FontAttributes="Bold"
+                                   TextColor="{Binding TouchBadgeColor}" />
+                            <Label Text="Slots multitoque" FontSize="11"
+                                   TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Visualizador da Matriz Capacitiva 3x3 FOD -->
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                        Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="MATRIZ CAPACITIVA SOB A DIGITAL (FOD 3x3)"
+                                   FontSize="12" FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}" />
+                            <Label Grid.Column="1" Text="Nó 5 (Centro) ≥ 5 = OK"
+                                   FontSize="11"
+                                   TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+                        </Grid>
+
+                        <!-- Grid 3x3 -->
+                        <Grid ColumnDefinitions="*,*,*" RowDefinitions="44,44,44" ColumnSpacing="8" RowSpacing="8" HorizontalOptions="Center" WidthRequest="320">
+                            <!-- Linha 1 -->
+                            <Border Grid.Row="0" Grid.Column="0" BackgroundColor="#242629" StrokeShape="RoundRectangle 6">
+                                <Label Text="{Binding Node0}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                            </Border>
+                            <Border Grid.Row="0" Grid.Column="1" BackgroundColor="#242629" StrokeShape="RoundRectangle 6">
+                                <Label Text="{Binding Node1}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                            </Border>
+                            <Border Grid.Row="0" Grid.Column="2" BackgroundColor="#242629" StrokeShape="RoundRectangle 6">
+                                <Label Text="{Binding Node2}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                            </Border>
+
+                            <!-- Linha 2 -->
+                            <Border Grid.Row="1" Grid.Column="0" BackgroundColor="{Binding Node4Color}" StrokeShape="RoundRectangle 6">
+                                <Label Text="{Binding Node3}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                            </Border>
+                            <!-- NÓ 5 - CENTRO DA DIGITAL -->
+                            <Border Grid.Row="1" Grid.Column="1" BackgroundColor="{Binding Node5Color}" StrokeThickness="2" Stroke="White" StrokeShape="RoundRectangle 6">
+                                <Label Text="{Binding Node4}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="15" FontAttributes="Bold" TextColor="White" />
+                            </Border>
+                            <Border Grid.Row="1" Grid.Column="2" BackgroundColor="#242629" StrokeShape="RoundRectangle 6">
+                                <Label Text="{Binding Node5}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                            </Border>
+
+                            <!-- Linha 3 -->
+                            <Border Grid.Row="2" Grid.Column="0" BackgroundColor="#242629" StrokeShape="RoundRectangle 6">
+                                <Label Text="{Binding Node6}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                            </Border>
+                            <Border Grid.Row="2" Grid.Column="1" BackgroundColor="#242629" StrokeShape="RoundRectangle 6">
+                                <Label Text="{Binding Node7}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                            </Border>
+                            <Border Grid.Row="2" Grid.Column="2" BackgroundColor="#242629" StrokeShape="RoundRectangle 6">
+                                <Label Text="{Binding Node8}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Contadores de Telemetria (Ruído e Anomalias) -->
+                <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="10">
+                    <Border Grid.Column="0" BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                            Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                            StrokeShape="RoundRectangle 8" Padding="12">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="RUÍDO (TNOI)" FontSize="10" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+                            <Label Text="{Binding Telemetry.Tnoi}" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                            Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                            StrokeShape="RoundRectangle 8" Padding="12">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="FANTASMAS" FontSize="10" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+                            <Label Text="{Binding Telemetry.Tmul}" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="2" BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                            Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                            StrokeShape="RoundRectangle 8" Padding="12">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="UMIDADE" FontSize="10" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+                            <Label Text="{Binding Telemetry.Twet}" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="3" BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                            Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                            StrokeShape="RoundRectangle 8" Padding="12">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="SCRUB POS" FontSize="10" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+                            <Label Text="{Binding Telemetry.LastScrubPos}" FontSize="13" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Seção de Ações Rápidas de Manutenção -->
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                        Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="AÇÕES DE MANUTENÇÃO RÁPIDA"
+                               FontSize="12" FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}" />
+
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="10">
+                            <!-- Destravar Touch -->
+                            <Button Grid.Row="0" Grid.Column="0"
+                                    Text="Destravar Touch (2s)"
+                                    Command="{Binding UnlockTouchCommand}"
+                                    BackgroundColor="{StaticResource AccentDark}"
+                                    TextColor="White" FontAttributes="Bold" />
+
+                            <!-- Ciclo de Tela -->
+                            <Button Grid.Row="0" Grid.Column="1"
+                                    Text="Ciclar Tela (Off/On)"
+                                    Command="{Binding CycleScreenCommand}"
+                                    BackgroundColor="{StaticResource SecondaryDark}"
+                                    TextColor="White" />
+
+                            <!-- Reaplicar Blindagem -->
+                            <Button Grid.Row="1" Grid.Column="0"
+                                    Text="Reaplicar Blindagem ADB"
+                                    Command="{Binding ApplyHardeningCommand}"
+                                    BackgroundColor="{StaticResource SecondaryDark}"
+                                    TextColor="White" />
+
+                            <!-- Reiniciar Celular -->
+                            <Button Grid.Row="1" Grid.Column="1"
+                                    Text="Reiniciar Celular"
+                                    Command="{Binding RebootCommand}"
+                                    BackgroundColor="{StaticResource PrimaryLight}"
+                                    TextColor="White" FontAttributes="Bold" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Mensagem de Rodapé / Status -->
+                <Label Text="{Binding StatusMessage}"
+                       HorizontalOptions="Center"
+                       FontSize="12"
+                       TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

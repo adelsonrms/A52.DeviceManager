@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "w:\\a52\\apps\\A52.DeviceManager\\A52.DeviceManager.csproj": {}
+    "W:\\a52\\apps\\A52.DeviceManager\\A52.DeviceManager.csproj": {}
   },
   "projects": {
-    "w:\\a52\\apps\\A52.DeviceManager\\A52.DeviceManager.csproj": {
+    "W:\\a52\\apps\\A52.DeviceManager\\A52.DeviceManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "w:\\a52\\apps\\A52.DeviceManager\\A52.DeviceManager.csproj",
+        "projectUniqueName": "W:\\a52\\apps\\A52.DeviceManager\\A52.DeviceManager.csproj",
         "projectName": "A52.DeviceManager",
-        "projectPath": "w:\\a52\\apps\\A52.DeviceManager\\A52.DeviceManager.csproj",
+        "projectPath": "W:\\a52\\apps\\A52.DeviceManager\\A52.DeviceManager.csproj",
         "packagesPath": "C:\\Users\\adelson\\.nuget\\packages\\",
-        "outputPath": "w:\\a52\\apps\\A52.DeviceManager\\obj\\",
+        "outputPath": "W:\\a52\\apps\\A52.DeviceManager\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [

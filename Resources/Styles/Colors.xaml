@@ -1,44 +1,116 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<ResourceDictionary 
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
+    <!-- Infra Hub · Design System (Tema Vivid D39 - @infra/ui/styles.css) -->
 
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
-    <Color x:Key="PrimaryDarkText">#242424</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="SecondaryDarkText">#9880e5</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
+    <!-- Primary: hsl(17 91% 45%) Light / hsl(18 100% 58%) Dark -->
+    <Color x:Key="PrimaryLight">#DC3B0A</Color>
+    <Color x:Key="PrimaryDark">#FF5E29</Color>
+    <Color x:Key="PrimaryFgLight">#FFFFFF</Color>
+    <Color x:Key="PrimaryFgDark">#1A0700</Color>
+    <Color x:Key="PrimaryTintLight">#FDECE6</Color>
+    <Color x:Key="PrimaryTintDark">#2B1610</Color>
 
+    <!-- Accent: hsl(220 76% 50%) Light / hsl(218 100% 65%) Dark -->
+    <Color x:Key="AccentLight">#1F66E0</Color>
+    <Color x:Key="AccentDark">#4D88FF</Color>
+
+    <!-- Background: hsl(228 33% 97%) Light / hsl(220 6% 5%) Dark (Graphite Ink) -->
+    <Color x:Key="BackgroundLight">#F5F6FA</Color>
+    <Color x:Key="BackgroundDark">#0C0D0E</Color>
+
+    <!-- Card / Surface: hsl(0 0% 100%) Light / hsl(220 5% 10%) Dark -->
+    <Color x:Key="CardLight">#FFFFFF</Color>
+    <Color x:Key="CardDark">#18191B</Color>
+
+    <!-- Sidebar / TopBar: hsl(0 0% 100%) Light / hsl(220 6% 7%) Dark -->
+    <Color x:Key="SidebarLight">#FFFFFF</Color>
+    <Color x:Key="SidebarDark">#111213</Color>
+
+    <!-- Foreground: hsl(228 41% 7%) Light / hsl(210 20% 98%) Dark -->
+    <Color x:Key="ForegroundLight">#0A0D1A</Color>
+    <Color x:Key="ForegroundDark">#F8FAFC</Color>
+
+    <!-- Muted / Secondary: hsl(225 27% 94%) Light / hsl(220 5% 15%) Dark -->
+    <Color x:Key="SecondaryLight">#ECEEF4</Color>
+    <Color x:Key="SecondaryDark">#242629</Color>
+    <Color x:Key="MutedBoxLight">#F2F4F8</Color>
+    <Color x:Key="MutedBoxDark">#1E2023</Color>
+
+    <!-- Muted Foreground: hsl(226 17% 35%) Light / hsl(220 6% 70%) Dark -->
+    <Color x:Key="MutedFgLight">#4A5068</Color>
+    <Color x:Key="MutedFgDark">#AEB2BA</Color>
+
+    <!-- Border & Input: hsl(223 25% 89%) Light / hsl(220 5% 20%) Dark -->
+    <Color x:Key="BorderLight">#DBE0EC</Color>
+    <Color x:Key="BorderDark">#303236</Color>
+    <Color x:Key="InputLight">#CFD6E6</Color>
+    <Color x:Key="InputDark">#383A3F</Color>
+
+    <!-- Operational Status Tokens (Success, Warning, Destructive, Info, Violet, Terminal) -->
+    <Color x:Key="Success">#10B981</Color>
+    <Color x:Key="SuccessTextLight">#057A55</Color>
+    <Color x:Key="SuccessTextDark">#2EE59D</Color>
+    <Color x:Key="SuccessLight">#E6F4EF</Color>
+    <Color x:Key="SuccessDark">#11221C</Color>
+
+    <Color x:Key="Danger">#EF4444</Color>
+    <Color x:Key="DangerTextLight">#CE123E</Color>
+    <Color x:Key="DangerTextDark">#FF4D6D</Color>
+    <Color x:Key="DangerBgLight">#FCE8EC</Color>
+    <Color x:Key="DangerBgDark">#281419</Color>
+
+    <Color x:Key="Warning">#F59E0B</Color>
+    <Color x:Key="WarningTextLight">#A35C00</Color>
+    <Color x:Key="WarningTextDark">#FFBD3D</Color>
+    <Color x:Key="WarningBgLight">#FDF3E7</Color>
+    <Color x:Key="WarningBgDark">#261F12</Color>
+
+    <Color x:Key="InfoTextLight">#0375B4</Color>
+    <Color x:Key="InfoTextDark">#38D9F5</Color>
+    <Color x:Key="InfoBgLight">#E6F3FA</Color>
+    <Color x:Key="InfoBgDark">#112328</Color>
+
+    <Color x:Key="TerminalBg">#090A0B</Color>
+    <Color x:Key="TerminalFg">#F2F4F8</Color>
+
+    <Color x:Key="TagIndigo">#4D88FF</Color>
+    <Color x:Key="TagBlue">#38D9F5</Color>
+    <Color x:Key="TagGreen">#2EE59D</Color>
+    <Color x:Key="TagOrange">#FF5E29</Color>
+    <Color x:Key="TagPink">#FF4D6D</Color>
+    <Color x:Key="TagPurple">#A389FA</Color>
+
+    <!-- Legacy & MAUI Default Aliases -->
+    <Color x:Key="Primary">#DC3B0A</Color>
+    <Color x:Key="PrimaryDarkText">#1A0700</Color>
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
-    <Color x:Key="Magenta">#D600AA</Color>
-    <Color x:Key="MidnightBlue">#190649</Color>
-    <Color x:Key="OffBlack">#1f1f1f</Color>
+    <Color x:Key="OffBlack">#0C0D0E</Color>
+    <Color x:Key="FrameBackgroundLight">#FFFFFF</Color>
+    <Color x:Key="FrameBackgroundDark">#18191B</Color>
+    <Color x:Key="TextSecondaryLight">#4A5068</Color>
+    <Color x:Key="TextSecondaryDark">#AEB2BA</Color>
+    <Color x:Key="WarningBackgroundLight">#FDF3E7</Color>
+    <Color x:Key="WarningBackgroundDark">#261F12</Color>
+    <Color x:Key="Tertiary">#FF5E29</Color>
+    <Color x:Key="Secondary">#242629</Color>
+    <Color x:Key="SecondaryDarkText">#FF5E29</Color>
 
-    <Color x:Key="Gray100">#E1E1E1</Color>
-    <Color x:Key="Gray200">#C8C8C8</Color>
-    <Color x:Key="Gray300">#ACACAC</Color>
-    <Color x:Key="Gray400">#919191</Color>
-    <Color x:Key="Gray500">#6E6E6E</Color>
-    <Color x:Key="Gray600">#404040</Color>
-    <Color x:Key="Gray900">#212121</Color>
-    <Color x:Key="Gray950">#141414</Color>
+    <Color x:Key="Gray100">#ECEEF4</Color>
+    <Color x:Key="Gray200">#DBE0EC</Color>
+    <Color x:Key="Gray300">#AEB2BA</Color>
+    <Color x:Key="Gray400">#AEB2BA</Color>
+    <Color x:Key="Gray500">#4A5068</Color>
+    <Color x:Key="Gray600">#303236</Color>
+    <Color x:Key="Gray900">#18191B</Color>
+    <Color x:Key="Gray950">#0C0D0E</Color>
 
-    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
-    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
-    <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>
-    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>
-    <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}"/>
+    <Color x:Key="HeaderBackgroundLight">#FFFFFF</Color>
+    <Color x:Key="HeaderBackgroundDark">#111213</Color>
 
-    <SolidColorBrush x:Key="Gray100Brush" Color="{StaticResource Gray100}"/>
-    <SolidColorBrush x:Key="Gray200Brush" Color="{StaticResource Gray200}"/>
-    <SolidColorBrush x:Key="Gray300Brush" Color="{StaticResource Gray300}"/>
-    <SolidColorBrush x:Key="Gray400Brush" Color="{StaticResource Gray400}"/>
-    <SolidColorBrush x:Key="Gray500Brush" Color="{StaticResource Gray500}"/>
-    <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
-    <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
-    <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+    <Color x:Key="MidnightBlue">#0A0D1A</Color>
+    <Color x:Key="Magenta">#FF5E29</Color>
+
 </ResourceDictionary>
