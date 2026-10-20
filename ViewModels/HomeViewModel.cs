@@ -112,12 +112,34 @@ public class HomeViewModel : INotifyPropertyChanged
     public ICommand ApplyHardeningCommand { get; }
     public ICommand RebootCommand { get; }
     public ICommand RefreshCommand { get; }
+    public ICommand ToggleThemeCommand { get; }
     public ICommand BiometricCardTappedCommand { get; }
+
+    public string ThemeIcon => (Application.Current?.RequestedTheme == AppTheme.Dark) ? "☀️" : "🌙";
 
     public HomeViewModel(IA52DeviceService deviceService, DeviceLogService logService)
     {
         _deviceService = deviceService;
         _logService = logService;
+
+        ToggleThemeCommand = new Command(() =>
+        {
+            var app = Application.Current;
+            if (app == null) return;
+
+            var isDark = app.RequestedTheme == AppTheme.Dark;
+            app.UserAppTheme = isDark ? AppTheme.Light : AppTheme.Dark;
+            OnPropertyChanged(nameof(ThemeIcon));
+            _logService.Log("Tema Alterado", isDark ? "Tema Claro ativado" : "Tema Escuro ativado", LogSeverity.Info);
+        });
+
+        if (Application.Current != null)
+        {
+            Application.Current.RequestedThemeChanged += (s, e) =>
+            {
+                OnPropertyChanged(nameof(ThemeIcon));
+            };
+        }
 
         UnlockTouchCommand = new Command(async () => await ExecuteActionWithConfirmationAsync(
             "Destravar Touch",
@@ -334,7 +356,7 @@ public class HomeViewModel : INotifyPropertyChanged
             IsBusy = false;
         }
     }
-
+        
     protected void OnPropertyChanged([CallerMemberName] string? propName = null)
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 }

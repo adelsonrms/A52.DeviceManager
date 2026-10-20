@@ -48,17 +48,32 @@
                                    LineBreakMode="TailTruncation"
                                    IsVisible="{Binding IsMobile}" />
 
-                            <!-- Botão Atualizar compacto e alinhado à direita -->
-                            <Button Grid.Column="2" Text="Atualizar"
-                                    Command="{Binding RefreshCommand}"
-                                    BackgroundColor="{AppThemeBinding Light={StaticResource SecondaryLight}, Dark={StaticResource SecondaryDark}}"
-                                    TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}"
-                                    BorderColor="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
-                                    BorderWidth="1"
-                                    CornerRadius="2"
-                                    HeightRequest="24" WidthRequest="68" Padding="0"
-                                    FontSize="10" FontAttributes="Bold"
-                                    VerticalOptions="Center" HorizontalOptions="End" />
+                            <!-- Ações Rápidas: Atualizar (ícone compacto) e Alternar Tema -->
+                            <HorizontalStackLayout Grid.Column="2" Spacing="6" VerticalOptions="Center" HorizontalOptions="End">
+                                <Button Text="↻"
+                                        Command="{Binding RefreshCommand}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource SecondaryLight}, Dark={StaticResource SecondaryDark}}"
+                                        TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}"
+                                        BorderColor="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                                        BorderWidth="1"
+                                        CornerRadius="2"
+                                        HeightRequest="24" WidthRequest="24" Padding="0"
+                                        FontSize="13" FontAttributes="Bold"
+                                        ToolTipProperties.Text="Atualizar telemetria"
+                                        VerticalOptions="Center" />
+
+                                <Button Text="{Binding ThemeIcon}"
+                                        Command="{Binding ToggleThemeCommand}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource SecondaryLight}, Dark={StaticResource SecondaryDark}}"
+                                        TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}"
+                                        BorderColor="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                                        BorderWidth="1"
+                                        CornerRadius="2"
+                                        HeightRequest="24" WidthRequest="24" Padding="0"
+                                        FontSize="12"
+                                        ToolTipProperties.Text="Alternar Tema Claro/Escuro"
+                                        VerticalOptions="Center" />
+                            </HorizontalStackLayout>
                         </Grid>
 
                         <!-- Linha 2: Uptime discreto em linha própria -->
