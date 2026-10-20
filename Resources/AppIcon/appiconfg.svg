@@ -1,8 +1,49 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="456" height="456" viewBox="0 0 456 456" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <path d="m 105.50037,281.60863 c -2.70293,0 -5.00091,-0.90042 -6.893127,-2.70209 -1.892214,-1.84778 -2.837901,-4.04181 -2.837901,-6.58209 0,-2.58722 0.945687,-4.80389 2.837901,-6.65167 1.892217,-1.84778 4.190197,-2.77167 6.893127,-2.77167 2.74819,0 5.06798,0.92389 6.96019,2.77167 1.93749,1.84778 2.90581,4.06445 2.90581,6.65167 0,2.54028 -0.96832,4.73431 -2.90581,6.58209 -1.89221,1.80167 -4.212,2.70209 -6.96019,2.70209 z" style="fill:#ffffff;fill-rule:nonzero;stroke-width:0.838376" />
-    <path d="M 213.56111,280.08446 H 195.99044 L 149.69953,207.0544 c -1.17121,-1.84778 -2.14037,-3.76515 -2.90581,-5.75126 h -0.40578 c 0.36051,2.12528 0.54076,6.67515 0.54076,13.6496 v 65.13172 h -15.54349 v -99.36009 h 18.71925 l 44.7374,71.29798 c 1.89222,2.95695 3.1087,4.98917 3.64945,6.09751 h 0.26996 c -0.45021,-2.6325 -0.67573,-7.09015 -0.67573,-13.37293 v -64.02256 h 15.47557 z" style="fill:#ffffff;fill-rule:nonzero;stroke-width:0.838376" />
-    <path d="m 289.25134,280.08446 h -54.40052 v -99.36009 h 52.23835 v 13.99669 h -36.15411 v 28.13085 h 33.31621 v 13.9271 h -33.31621 v 29.37835 h 38.31628 z" style="fill:#ffffff;fill-rule:nonzero;stroke-width:0.838376" />
-    <path d="M 366.56466,194.72106 H 338.7222 v 85.3634 h -16.08423 v -85.3634 h -27.77455 v -13.99669 h 71.70124 z" style="fill:#ffffff;fill-rule:nonzero;stroke-width:0.838376" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="456" height="456" viewBox="0 0 456 456" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradPrimary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="50%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#F97316" />
+    </linearGradient>
+    <linearGradient id="gradGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#F97316" stop-opacity="0.8" />
+    </linearGradient>
+  </defs>
+
+  <!-- Smartphone Frame -->
+  <rect x="118" y="48" width="220" height="360" rx="36" ry="36" fill="#18191D" stroke="url(#gradPrimary)" stroke-width="8" />
+
+  <!-- Earpiece / Sensor notch -->
+  <rect x="198" y="68" width="60" height="6" rx="3" fill="#3A3D45" />
+
+  <!-- Display Area -->
+  <rect x="134" y="90" width="188" height="290" rx="16" ry="16" fill="#0C0D10" />
+
+  <!-- Biometric Fingerprint Ridges (Concentric Optic Arcs) -->
+  <!-- Outer Ridge -->
+  <path d="M 188 235 A 40 40 0 0 1 268 235" fill="none" stroke="url(#gradPrimary)" stroke-width="5" stroke-linecap="round" />
+  <path d="M 180 255 A 48 48 0 0 1 276 255" fill="none" stroke="#4F46E5" stroke-width="4.5" stroke-linecap="round" />
+
+  <!-- Middle Ridge -->
+  <path d="M 200 220 A 28 28 0 0 1 256 220" fill="none" stroke="#38BDF8" stroke-width="5" stroke-linecap="round" />
+  <path d="M 194 270 A 34 34 0 0 0 262 270" fill="none" stroke="#F97316" stroke-width="4.5" stroke-linecap="round" />
+
+  <!-- Inner Loop -->
+  <path d="M 214 208 A 14 14 0 0 1 242 208" fill="none" stroke="#60A5FA" stroke-width="4" stroke-linecap="round" />
+  <path d="M 218 208 V 242" fill="none" stroke="#38BDF8" stroke-width="4" stroke-linecap="round" />
+  <path d="M 238 208 V 238" fill="none" stroke="#6366F1" stroke-width="4" stroke-linecap="round" />
+
+  <!-- Center Optical Focal Sensor (Nó 5) -->
+  <circle cx="228" cy="235" r="7" fill="#F97316" />
+  <circle cx="228" cy="235" r="14" fill="none" stroke="#F97316" stroke-width="2.5" stroke-dasharray="4,3" opacity="0.8" />
+
+  <!-- Hardware Pulse Waveforms (Top & Bottom) -->
+  <path d="M 154 135 H 180 L 192 120 L 204 150 L 216 130 L 226 135 H 302" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="302" cy="135" r="3.5" fill="#10B981" />
+
+  <!-- Touch Status Scan Bar -->
+  <rect x="160" y="325" width="136" height="5" rx="2.5" fill="#334155" />
+  <rect x="180" y="325" width="60" height="5" rx="2.5" fill="url(#gradPrimary)" />
 </svg>

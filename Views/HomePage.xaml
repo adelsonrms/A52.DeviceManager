@@ -20,57 +20,54 @@
                         Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
                         StrokeShape="RoundRectangle 6"
                         Padding="12,8">
-                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" VerticalOptions="Center">
-                        <!-- Windows: Picker (Combo) com lista de dispositivos ADB conectados -->
-                        <HorizontalStackLayout Grid.Column="0" Spacing="8" VerticalOptions="Center" IsVisible="{Binding IsWindows}">
-                            <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4"
+                    <Grid RowDefinitions="Auto,Auto" RowSpacing="4">
+                        <!-- Linha 1: Indicador + Seletor/Nome + Botão Atualizar -->
+                        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" VerticalOptions="Center">
+                            <BoxView Grid.Column="0" WidthRequest="8" HeightRequest="8" CornerRadius="4"
                                      Color="{Binding ConnectionDotColor}"
                                      VerticalOptions="Center" />
-                            <Label Text="Dispositivo:"
-                                   FontSize="12" FontAttributes="Bold"
-                                   TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}"
-                                   VerticalOptions="Center" />
-                            <Picker ItemsSource="{Binding AvailableDevices}"
+
+                            <!-- Windows: Picker compacto -->
+                            <Picker Grid.Column="1"
+                                    ItemsSource="{Binding AvailableDevices}"
                                     SelectedItem="{Binding SelectedDevice}"
-                                    Title="Selecione um dispositivo"
+                                    Title="Selecionar dispositivo ADB"
                                     FontSize="12" FontAttributes="Bold"
                                     TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}"
                                     TitleColor="{StaticResource MutedFgDark}"
                                     BackgroundColor="Transparent"
-                                    MinimumWidthRequest="180"
-                                    VerticalOptions="Center" />
-                            <Label Text="•" FontSize="11" TextColor="{StaticResource MutedFgDark}" VerticalOptions="Center" />
-                            <Label Text="{Binding Telemetry.Uptime}"
-                                   FontSize="11"
-                                   TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}"
-                                   VerticalOptions="Center" />
-                        </HorizontalStackLayout>
+                                    VerticalOptions="Center"
+                                    IsVisible="{Binding IsWindows}" />
 
-                        <!-- Mobile: Nome do dispositivo fixo direto -->
-                        <HorizontalStackLayout Grid.Column="0" Spacing="8" VerticalOptions="Center" IsVisible="{Binding IsMobile}">
-                            <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4"
-                                     Color="{Binding ConnectionDotColor}"
-                                     VerticalOptions="Center" />
-                            <Label Text="{Binding Telemetry.DeviceSerial}"
+                            <!-- Mobile: Nome fixo -->
+                            <Label Grid.Column="1"
+                                   Text="{Binding Telemetry.DeviceSerial}"
                                    FontSize="12" FontAttributes="Bold"
                                    TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}"
-                                   VerticalOptions="Center" />
-                            <Label Text="•" FontSize="11" TextColor="{StaticResource MutedFgDark}" VerticalOptions="Center" />
-                            <Label Text="{Binding Telemetry.Uptime}"
-                                   FontSize="11"
-                                   TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}"
-                                   VerticalOptions="Center" />
-                        </HorizontalStackLayout>
+                                   VerticalOptions="Center"
+                                   LineBreakMode="TailTruncation"
+                                   IsVisible="{Binding IsMobile}" />
 
-                        <Button Grid.Column="1" Text="Atualizar"
-                                Command="{Binding RefreshCommand}"
-                                BackgroundColor="{AppThemeBinding Light={StaticResource SecondaryLight}, Dark={StaticResource SecondaryDark}}"
-                                TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}"
-                                BorderColor="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
-                                BorderWidth="1"
-                                CornerRadius="4"
-                                HeightRequest="28" Padding="12,0"
-                                FontSize="11" />
+                            <!-- Botão Atualizar compacto e alinhado à direita -->
+                            <Button Grid.Column="2" Text="Atualizar"
+                                    Command="{Binding RefreshCommand}"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource SecondaryLight}, Dark={StaticResource SecondaryDark}}"
+                                    TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}"
+                                    BorderColor="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                                    BorderWidth="1"
+                                    CornerRadius="4"
+                                    HeightRequest="24" WidthRequest="68" Padding="0"
+                                    FontSize="10" FontAttributes="Bold"
+                                    VerticalOptions="Center" HorizontalOptions="End" />
+                        </Grid>
+
+                        <!-- Linha 2: Uptime discreto em linha própria -->
+                        <Label Grid.Row="1"
+                               Text="{Binding Telemetry.Uptime, StringFormat='Atividade: {0}'}"
+                               FontSize="10"
+                               TextColor="{StaticResource MutedFgDark}"
+                               LineBreakMode="TailTruncation"
+                               Margin="16,0,0,0" />
                     </Grid>
                 </Border>
 
@@ -202,15 +199,15 @@
                         Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
                         StrokeShape="RoundRectangle 6"
                         Padding="12,10">
-                    <VerticalStackLayout Spacing="8">
+                    <VerticalStackLayout Spacing="10">
                         <Label Text="AÇÕES DE MANUTENÇÃO"
                                FontSize="11" FontAttributes="Bold"
                                TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}" />
 
-                        <Grid ColumnDefinitions="*,*" RowDefinitions="36,36" ColumnSpacing="8" RowSpacing="8">
-                            <!-- Destravar Touch (Botão de Destaque Primário com borda suave) -->
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="10">
+                            <!-- Destravar Touch -->
                             <Button Grid.Row="0" Grid.Column="0"
-                                    Text="Destravar Touch (2s)"
+                                    Text="Destravar Touch"
                                     Command="{Binding UnlockTouchCommand}"
                                     BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryTintLight}, Dark={StaticResource PrimaryTintDark}}"
                                     TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
@@ -218,9 +215,10 @@
                                     BorderWidth="1"
                                     CornerRadius="6"
                                     FontSize="11" FontAttributes="Bold"
-                                    HeightRequest="36" />
+                                    HeightRequest="42" Padding="4,0" Margin="0"
+                                    HorizontalOptions="Fill" VerticalOptions="Fill" />
 
-                            <!-- Ciclar Tela (Secundário do Hub) -->
+                            <!-- Ciclar Tela -->
                             <Button Grid.Row="0" Grid.Column="1"
                                     Text="Ciclar Tela (Off/On)"
                                     Command="{Binding CycleScreenCommand}"
@@ -230,9 +228,10 @@
                                     BorderWidth="1"
                                     CornerRadius="6"
                                     FontSize="11"
-                                    HeightRequest="36" />
+                                    HeightRequest="42" Padding="4,0" Margin="0"
+                                    HorizontalOptions="Fill" VerticalOptions="Fill" />
 
-                            <!-- Reaplicar Blindagem ADB (Secundário do Hub) -->
+                            <!-- Reaplicar Blindagem ADB -->
                             <Button Grid.Row="1" Grid.Column="0"
                                     Text="Reaplicar Blindagem"
                                     Command="{Binding ApplyHardeningCommand}"
@@ -242,9 +241,10 @@
                                     BorderWidth="1"
                                     CornerRadius="6"
                                     FontSize="11"
-                                    HeightRequest="36" />
+                                    HeightRequest="42" Padding="4,0" Margin="0"
+                                    HorizontalOptions="Fill" VerticalOptions="Fill" />
 
-                            <!-- Reiniciar Celular (Ação Crítica com Tom Avermelhado) -->
+                            <!-- Reiniciar Celular -->
                             <Button Grid.Row="1" Grid.Column="1"
                                     Text="Reiniciar Celular"
                                     Command="{Binding RebootCommand}"
@@ -252,7 +252,8 @@
                                     TextColor="{StaticResource PrimaryFgLight}"
                                     CornerRadius="6"
                                     FontSize="11" FontAttributes="Bold"
-                                    HeightRequest="36" />
+                                    HeightRequest="42" Padding="4,0" Margin="0"
+                                    HorizontalOptions="Fill" VerticalOptions="Fill" />
                         </Grid>
                     </VerticalStackLayout>
                 </Border>
