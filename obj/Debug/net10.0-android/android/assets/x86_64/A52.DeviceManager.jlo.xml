@@ -1,0 +1,26 @@
+<api>
+  <jcw-types>
+    <type name="MainActivity" package="crc64c049cc469f87efb3" application_java_class="android.app.Application" mono_runtime_initialization="mono.MonoPackageManager.LoadApplication (context);" extends_type="crc6488302ad6e9e4df1a.MauiAppCompatActivity" partial_assembly_qualified_name="A52.DeviceManager.MainActivity, A52.DeviceManager">
+      <constructors>
+        <constructor name="MainActivity" method="n_.ctor:()V:" jni_signature="()V" managed_parameters="" retval="void" is_dynamically_registered="True" />
+        <constructor name="MainActivity" method="n_.ctor:(I)V:" jni_signature="(I)V" managed_parameters="System.Int32, System.Private.CoreLib" params="int p0" retval="void" is_dynamically_registered="True" super_call="p0" activate_call="p0" />
+      </constructors>
+    </type>
+    <type name="MainApplication" package="crc64c049cc469f87efb3" application_java_class="android.app.Application" mono_runtime_initialization="mono.MonoPackageManager.LoadApplication (context);" extends_type="crc6488302ad6e9e4df1a.MauiApplication" is_application="True" partial_assembly_qualified_name="A52.DeviceManager.MainApplication, A52.DeviceManager" application_constructor="MainApplication" />
+    <type name="A52ForegroundService" package="com.devonno.a52" application_java_class="android.app.Application" mono_runtime_initialization="mono.MonoPackageManager.LoadApplication (context);" extends_type="android.app.Service" partial_assembly_qualified_name="A52.DeviceManager.Platforms.Android.A52ForegroundService, A52.DeviceManager">
+      <constructors>
+        <constructor name="A52ForegroundService" method="n_.ctor:()V:" jni_signature="()V" managed_parameters="" retval="void" is_dynamically_registered="True" />
+      </constructors>
+      <methods>
+        <method name="onBind" method="n_onBind:(Landroid/content/Intent;)Landroid/os/IBinder;:GetOnBind_Landroid_content_Intent_Handler" jni_signature="(Landroid/content/Intent;)Landroid/os/IBinder;" params="android.content.Intent p0" retval="android.os.IBinder" is_dynamically_registered="True" super_call="p0" activate_call="p0" />
+        <method name="onStartCommand" method="n_onStartCommand:(Landroid/content/Intent;II)I:GetOnStartCommand_Landroid_content_Intent_IIHandler" jni_signature="(Landroid/content/Intent;II)I" params="android.content.Intent p0, int p1, int p2" retval="int" is_dynamically_registered="True" super_call="p0, p1, p2" activate_call="p0, p1, p2" />
+        <method name="onDestroy" method="n_onDestroy:()V:GetOnDestroyHandler" jni_signature="()V" retval="void" is_dynamically_registered="True" />
+      </methods>
+    </type>
+  </jcw-types>
+  <acw-types partial-assembly-name="A52.DeviceManager" module-name="A52.DeviceManager.dll">
+    <type assembly-qualified-name="A52.DeviceManager.MainActivity, A52.DeviceManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="a52.devicemanager.MainActivity" java-key="crc64c049cc469f87efb3.MainActivity" managed-key="A52.DeviceManager.MainActivity" partial-assembly-qualified-name="A52.DeviceManager.MainActivity, A52.DeviceManager" />
+    <type assembly-qualified-name="A52.DeviceManager.MainApplication, A52.DeviceManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="a52.devicemanager.MainApplication" java-key="crc64c049cc469f87efb3.MainApplication" managed-key="A52.DeviceManager.MainApplication" partial-assembly-qualified-name="A52.DeviceManager.MainApplication, A52.DeviceManager" />
+    <type assembly-qualified-name="A52.DeviceManager.Platforms.Android.A52ForegroundService, A52.DeviceManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="com.devonno.a52.A52ForegroundService" java-key="com.devonno.a52.A52ForegroundService" managed-key="A52.DeviceManager.Platforms.Android.A52ForegroundService" partial-assembly-qualified-name="A52.DeviceManager.Platforms.Android.A52ForegroundService, A52.DeviceManager" />
+  </acw-types>
+</api>

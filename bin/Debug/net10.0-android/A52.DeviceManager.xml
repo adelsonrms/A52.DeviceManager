@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>A52.DeviceManager</name>
+    </assembly>
+    <members>
+        <member name="T:A52.DeviceManager.Services.AdbDeviceService">
+            <summary>
+            Implementação do serviço de comunicação via ADB CLI reutilizando a arquitetura testada no PhonEx.
+            </summary>
+        </member>
+        <member name="T:A52.DeviceManager.Resource">
+            <summary>
+            Android Resource Designer class.
+            Exposes the Android Resource designer assembly into the project Namespace.
+            </summary>
+        </member>
+    </members>
+</doc>

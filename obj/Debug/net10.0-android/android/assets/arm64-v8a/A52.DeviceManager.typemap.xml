@@ -1,0 +1,12 @@
+<api type="debug" assembly-name="A52.DeviceManager" mvid="4d37a137646f497cb1f7c1a0a082daca">
+  <java-to-managed>
+    <entry java-name="crc64c049cc469f87efb3/MainActivity" managed-name="A52.DeviceManager.MainActivity, A52.DeviceManager" managed-type-token-id="33554441" />
+    <entry java-name="crc64c049cc469f87efb3/MainApplication" managed-name="A52.DeviceManager.MainApplication, A52.DeviceManager" managed-type-token-id="33554442" />
+    <entry java-name="com/devonno/a52/A52ForegroundService" managed-name="A52.DeviceManager.Platforms.Android.A52ForegroundService, A52.DeviceManager" managed-type-token-id="33554449" />
+  </java-to-managed>
+  <managed-to-java>
+    <entry java-name="crc64c049cc469f87efb3/MainActivity" managed-name="A52.DeviceManager.MainActivity, A52.DeviceManager" managed-type-token-id="33554441" />
+    <entry java-name="crc64c049cc469f87efb3/MainApplication" managed-name="A52.DeviceManager.MainApplication, A52.DeviceManager" managed-type-token-id="33554442" />
+    <entry java-name="com/devonno/a52/A52ForegroundService" managed-name="A52.DeviceManager.Platforms.Android.A52ForegroundService, A52.DeviceManager" managed-type-token-id="33554449" />
+  </managed-to-java>
+</api>
