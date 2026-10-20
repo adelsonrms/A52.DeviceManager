@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("A52.DeviceManager")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+9bfb3ad585e9b2b41c42abe325c45a9ac5890027")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+445181dbdce12b3dd34214bf3ec4336f1ca8df57")]
 [assembly: System.Reflection.AssemblyProductAttribute("A52.DeviceManager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("A52.DeviceManager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

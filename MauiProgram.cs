@@ -23,6 +23,10 @@ public static class MauiProgram
         builder.Services.AddSingleton<HomeViewModel>();
         builder.Services.AddSingleton<HomePage>();
 
+#if WINDOWS
+        builder.Services.AddSingleton<A52.DeviceManager.Platforms.Windows.WindowsTrayService>();
+#endif
+
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
