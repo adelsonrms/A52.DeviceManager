@@ -5,17 +5,72 @@ using A52.DeviceManager.Models;
 namespace A52.DeviceManager.Services;
 
 /// <summary>
-/// Implementação do serviço de comunicação via ADB CLI reutilizando a arquitetura testada no PhonEx.
+/// Implementação do serviço de comunicação via ADB CLI reutilizando a arquitetura do PhonEx.
+/// Suporta descoberta de dispositivos ADB conectados e seleção dinâmica.
 /// </summary>
 public class AdbDeviceService : IA52DeviceService
 {
-    private readonly string _targetSerial;
+    private string _targetSerial;
     private bool _bridgeVerified;
     public event EventHandler<TspTelemetry>? TelemetryUpdated;
+
+    public string CurrentTargetDevice => _targetSerial;
 
     public AdbDeviceService(string targetSerial = "RQ8T601E01X")
     {
         _targetSerial = targetSerial;
+    }
+
+    public void SetTargetDevice(string serial)
+    {
+        if (_targetSerial != serial)
+        {
+            _targetSerial = serial;
+            _bridgeVerified = false;
+        }
+    }
+
+    public async Task<List<string>> GetAvailableDevicesAsync(CancellationToken ct = default)
+    {
+        try
+        {
+            var psi = new ProcessStartInfo
+            {
+                FileName = "adb",
+                Arguments = "devices",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using var process = new Process { StartInfo = psi };
+            process.Start();
+
+            var stdoutTask = process.StandardOutput.ReadToEndAsync(ct);
+            await process.WaitForExitAsync(ct);
+            string output = await stdoutTask;
+
+            var devices = new List<string>();
+            var lines = output.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines)
+            {
+                var trimmed = line.Trim();
+                if (trimmed.StartsWith("List of devices", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                var match = Regex.Match(trimmed, @"^([^\s]+)\s+(device|offline|unauthorized)");
+                if (match.Success)
+                {
+                    devices.Add(match.Groups[1].Value);
+                }
+            }
+            return devices;
+        }
+        catch
+        {
+            return new List<string>();
+        }
     }
 
     public async Task EnsureBridgeRunningAsync(CancellationToken ct = default)
@@ -64,19 +119,41 @@ public class AdbDeviceService : IA52DeviceService
     {
         try
         {
+            if (string.IsNullOrEmpty(_targetSerial))
+            {
+                var devs = await GetAvailableDevicesAsync(ct);
+                if (devs.Count > 0)
+                {
+                    _targetSerial = devs[0];
+                }
+                else
+                {
+                    var noDevice = new TspTelemetry { DeviceConnected = false, DeviceSerial = "Nenhum dispositivo ADB" };
+                    TelemetryUpdated?.Invoke(this, noDevice);
+                    return noDevice;
+                }
+            }
+
             if (!_bridgeVerified)
             {
                 _ = Task.Run(() => EnsureBridgeRunningAsync(ct), ct);
             }
 
-            var (_, hwRaw, _) = await RunAdbAsync("shell cat /sys/class/sec/tsp/hw_param", ct);
+            var (codeHw, hwRaw, _) = await RunAdbAsync("shell cat /sys/class/sec/tsp/hw_param", ct);
+            if (codeHw != 0 || string.IsNullOrWhiteSpace(hwRaw))
+            {
+                var disconnected = new TspTelemetry { DeviceConnected = false, DeviceSerial = _targetSerial, Uptime = "Desconectado" };
+                TelemetryUpdated?.Invoke(this, disconnected);
+                return disconnected;
+            }
+
             var (_, sensRaw, _) = await RunAdbAsync("shell cat /sys/class/sec/tsp/sensitivity_mode", ct);
-            var (_, slotsRaw, _) = await RunAdbAsync("shell \"dumpsys input | grep 'inUse=true' | wc -l\"", ct);
+            var (_, slotsRaw, _) = await RunAdbAsync("shell \"dumpsys input 2>/dev/null | grep -c 'inUse=true'\"", ct);
             var (_, scrubRaw, _) = await RunAdbAsync("shell cat /sys/class/sec/tsp/scrub_pos", ct);
             var (_, uptimeRaw, _) = await RunAdbAsync("shell uptime", ct);
 
             int tnoi = 0, tmul = 0, twet = 0;
-            var matchHw = Regex.Match(hwRaw, @"""TMUL"":""(\d+)"",""TWET"":""(\d+)"",""TNOI"":""(\d+)""");
+            var matchHw = Regex.Match(hwRaw, @"""TMUL"":""?(\d+)""?.*""TWET"":""?(\d+)""?.*""TNOI"":""?(\d+)""?");
             if (matchHw.Success)
             {
                 int.TryParse(matchHw.Groups[1].Value, out tmul);
@@ -103,7 +180,8 @@ public class AdbDeviceService : IA52DeviceService
                 Twet = twet,
                 ActiveTouchSlots = activeSlots,
                 LastScrubPos = scrubRaw.Trim(),
-                FodNodes = nodes
+                FodNodes = nodes,
+                RawSensitivityMode = sensRaw.Trim()
             };
 
             TelemetryUpdated?.Invoke(this, telemetry);
@@ -112,7 +190,7 @@ public class AdbDeviceService : IA52DeviceService
         catch
         {
             _bridgeVerified = false;
-            var disconnected = new TspTelemetry { DeviceConnected = false, DeviceSerial = _targetSerial };
+            var disconnected = new TspTelemetry { DeviceConnected = false, DeviceSerial = _targetSerial, Uptime = "Erro de Leitura" };
             TelemetryUpdated?.Invoke(this, disconnected);
             return disconnected;
         }
@@ -120,13 +198,10 @@ public class AdbDeviceService : IA52DeviceService
 
     public async Task<bool> UnlockTouchAsync(CancellationToken ct = default)
     {
-        // 1. Desliga o módulo via Binder
         var (code1, _, _) = await RunAdbAsync("shell service call SemInputDeviceManagerService 29 i32 1 i32 1 s16 \"module_off_master\"", ct);
         await Task.Delay(1000, ct);
-        // 2. Religa o módulo
         var (code2, _, _) = await RunAdbAsync("shell service call SemInputDeviceManagerService 29 i32 1 i32 1 s16 \"module_on_master\"", ct);
         await Task.Delay(500, ct);
-        // 3. Reativa a zona FOD
         await RunAdbAsync("shell service call SemInputDeviceManagerService 29 i32 1 i32 1 s16 \"set_fod_rect,421,2018,659,2256\"", ct);
         await RunAdbAsync("shell service call SemInputDeviceManagerService 29 i32 1 i32 1 s16 \"fod_enable,1,1,0\"", ct);
         return code1 == 0 && code2 == 0;

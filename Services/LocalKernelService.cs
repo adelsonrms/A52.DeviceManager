@@ -13,6 +13,11 @@ public class LocalKernelService : IA52DeviceService
 {
     public event EventHandler<TspTelemetry>? TelemetryUpdated;
 
+    public string CurrentTargetDevice => "Local (Galaxy A52)";
+    public void SetTargetDevice(string serial) { }
+    public Task<List<string>> GetAvailableDevicesAsync(CancellationToken ct = default)
+        => Task.FromResult(new List<string> { "Local (Galaxy A52)" });
+
     private static string GetAppFilesDir()
     {
 #if ANDROID
@@ -88,7 +93,8 @@ public class LocalKernelService : IA52DeviceService
                         Twet = twet,
                         ActiveTouchSlots = slots,
                         LastScrubPos = scrubRaw.Trim(),
-                        FodNodes = nodes
+                        FodNodes = nodes,
+                        RawSensitivityMode = sensRaw.Trim()
                     };
 
                     TelemetryUpdated?.Invoke(this, telemetry);
@@ -134,7 +140,8 @@ public class LocalKernelService : IA52DeviceService
                 Twet = twet,
                 ActiveTouchSlots = 0,
                 LastScrubPos = scrubRaw.Trim(),
-                FodNodes = nodes
+                FodNodes = nodes,
+                RawSensitivityMode = sensRaw.Trim()
             };
 
             TelemetryUpdated?.Invoke(this, telemetry);

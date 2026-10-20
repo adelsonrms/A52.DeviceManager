@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -13,8 +14,32 @@ public class HomeViewModel : INotifyPropertyChanged
     private TspTelemetry _telemetry = TspTelemetry.CreateEmpty();
     private bool _isBusy;
     private string _statusMessage = "Iniciando monitoramento...";
+    private string? _selectedDevice;
 
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    public bool IsWindows => DeviceInfo.Platform == DevicePlatform.WinUI;
+    public bool IsMobile => !IsWindows;
+
+    public ObservableCollection<string> AvailableDevices { get; } = new();
+
+    public string? SelectedDevice
+    {
+        get => _selectedDevice;
+        set
+        {
+            if (_selectedDevice != value)
+            {
+                _selectedDevice = value;
+                OnPropertyChanged();
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _deviceService.SetTargetDevice(value);
+                    _ = Task.Run(RefreshTelemetryAsync);
+                }
+            }
+        }
+    }
 
     public TspTelemetry Telemetry
     {
@@ -34,8 +59,11 @@ public class HomeViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(Node8));
             OnPropertyChanged(nameof(Node4Color));
             OnPropertyChanged(nameof(Node5Color));
+            OnPropertyChanged(nameof(Node5StatusText));
+            OnPropertyChanged(nameof(Node5BadgeColor));
             OnPropertyChanged(nameof(BioBadgeColor));
             OnPropertyChanged(nameof(TouchBadgeColor));
+            OnPropertyChanged(nameof(ConnectionDotColor));
         }
     }
 
@@ -51,6 +79,8 @@ public class HomeViewModel : INotifyPropertyChanged
         set { _statusMessage = value; OnPropertyChanged(); }
     }
 
+    public Color ConnectionDotColor => Telemetry.DeviceConnected ? Colors.SeaGreen : Colors.Crimson;
+
     public int Node0 => Telemetry.FodNodes[0];
     public int Node1 => Telemetry.FodNodes[1];
     public int Node2 => Telemetry.FodNodes[2];
@@ -63,6 +93,10 @@ public class HomeViewModel : INotifyPropertyChanged
 
     public Color Node4Color => Node4 < -245 ? Colors.Crimson : Colors.DimGray;
     public Color Node5Color => Node5 < 5 ? Colors.Crimson : Colors.SeaGreen;
+
+    // Indicador Simplificado: {indicador} {saudável ou com alerta}
+    public string Node5StatusText => Node5 >= 5 ? $"{Node5}  •  SAUDÁVEL" : $"{Node5}  •  ALERTA (TRAVADO)";
+    public Color Node5BadgeColor => Node5 >= 5 ? Colors.SeaGreen : Colors.Crimson;
 
     public Color BioBadgeColor => Telemetry.IsBiometricLocked ? Colors.Crimson : Colors.SeaGreen;
     public Color TouchBadgeColor => Telemetry.IsGhostTouchActive ? Colors.DarkOrange : Colors.SeaGreen;
@@ -81,7 +115,11 @@ public class HomeViewModel : INotifyPropertyChanged
         CycleScreenCommand = new Command(async () => await ExecuteActionAsync("Ciclando energia da tela...", _deviceService.CycleDisplayPowerAsync));
         ApplyHardeningCommand = new Command(async () => await ExecuteActionAsync("Reaplicando blindagem ADB...", _deviceService.ApplyHardeningSettingsAsync));
         RebootCommand = new Command(async () => await ExecuteActionAsync("Reiniciando aparelho...", _deviceService.RebootDeviceAsync));
-        RefreshCommand = new Command(async () => await RefreshTelemetryAsync());
+        RefreshCommand = new Command(async () =>
+        {
+            await RefreshDevicesAsync();
+            await RefreshTelemetryAsync();
+        });
 
         _pollingTimer = new System.Timers.Timer(2000);
         _pollingTimer.Elapsed += async (s, e) => await RefreshTelemetryAsync();
@@ -95,7 +133,40 @@ public class HomeViewModel : INotifyPropertyChanged
     {
         await AppPermissions.RequestNotificationPermissionAsync();
         StartForegroundService();
+        await RefreshDevicesAsync();
         await RefreshTelemetryAsync();
+    }
+
+    private async Task RefreshDevicesAsync()
+    {
+        if (!IsWindows) return;
+        try
+        {
+            var devs = await _deviceService.GetAvailableDevicesAsync();
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                var prev = SelectedDevice;
+                AvailableDevices.Clear();
+                foreach (var d in devs)
+                {
+                    AvailableDevices.Add(d);
+                }
+
+                if (AvailableDevices.Count == 1)
+                {
+                    SelectedDevice = AvailableDevices[0];
+                }
+                else if (!string.IsNullOrEmpty(prev) && AvailableDevices.Contains(prev))
+                {
+                    SelectedDevice = prev;
+                }
+                else if (AvailableDevices.Count > 0 && SelectedDevice == null)
+                {
+                    SelectedDevice = AvailableDevices[0];
+                }
+            });
+        }
+        catch { }
     }
 
     private static void StartForegroundService()

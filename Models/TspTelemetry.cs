@@ -11,6 +11,11 @@ public record TspTelemetry
     public int ActiveTouchSlots { get; init; }
     public string LastScrubPos { get; init; } = "";
     public int[] FodNodes { get; init; } = new int[9];
+    public string RawSensitivityMode { get; init; } = "";
+
+    public string RawFodNodes => !string.IsNullOrWhiteSpace(RawSensitivityMode)
+        ? RawSensitivityMode.Trim()
+        : string.Join(",", FodNodes);
 
     public int Node4 => FodNodes.Length >= 9 ? FodNodes[3] : 0; // Meio-Esquerda
     public int Node5 => FodNodes.Length >= 9 ? FodNodes[4] : 0; // Centro FOD
