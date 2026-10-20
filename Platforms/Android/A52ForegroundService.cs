@@ -34,7 +34,7 @@ public class A52ForegroundService : Service
 
     private void OnTelemetryUpdated(object? sender, TspTelemetry e)
     {
-        string title = "Galaxy A52 - Status Normal";
+        string title = "Dispositivo - Status Normal";
         string statusText = $"Ruído: {e.Tnoi} | Fantasma: {e.Tmul} | Slots: {e.ActiveTouchSlots} | Nó 5: {e.Node5}";
         bool isAlert = false;
 

@@ -117,7 +117,7 @@ public sealed class WindowsTrayService : IDisposable
         _hwnd = hwnd;
         _subclassDelegate = WindowSubclass;
         SetWindowSubclass(_hwnd, _subclassDelegate, new UIntPtr(152), IntPtr.Zero);
-        InstallTrayIcon("Galaxy A52 Monitor - Conectado");
+        InstallTrayIcon("Dispositivo Monitor - Conectado");
     }
 
     private void InstallTrayIcon(string tip)

@@ -13,10 +13,10 @@ public class LocalKernelService : IA52DeviceService
 {
     public event EventHandler<TspTelemetry>? TelemetryUpdated;
 
-    public string CurrentTargetDevice => "Local (Galaxy A52)";
+    public string CurrentTargetDevice => "Local (Dispositivo)";
     public void SetTargetDevice(string serial) { }
     public Task<List<string>> GetAvailableDevicesAsync(CancellationToken ct = default)
-        => Task.FromResult(new List<string> { "Local (Galaxy A52)" });
+        => Task.FromResult(new List<string> { "Local (Dispositivo)" });
 
     private static string GetAppFilesDir()
     {
@@ -86,7 +86,7 @@ public class LocalKernelService : IA52DeviceService
                     var telemetry = new TspTelemetry
                     {
                         DeviceConnected = true,
-                        DeviceSerial = "Galaxy A52 (Daemon Ativo)",
+                        DeviceSerial = "Dispositivo (Daemon Ativo)",
                         Uptime = uptimeRaw.Trim(),
                         Tnoi = tnoi,
                         Tmul = tmul,
@@ -133,7 +133,7 @@ public class LocalKernelService : IA52DeviceService
             var telemetry = new TspTelemetry
             {
                 DeviceConnected = true,
-                DeviceSerial = "Galaxy A52 (Acesso Kernel)",
+                DeviceSerial = "Dispositivo (Acesso Kernel)",
                 Uptime = "Modo Local Direto",
                 Tnoi = tnoi,
                 Tmul = tmul,

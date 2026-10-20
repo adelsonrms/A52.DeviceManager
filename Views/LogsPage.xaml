@@ -19,7 +19,7 @@
             <Border Grid.Row="0"
                     BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                     Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
-                    StrokeShape="RoundRectangle 6"
+                    StrokeShape="RoundRectangle 3"
                     Padding="12,8">
                 <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
                     <VerticalStackLayout Grid.Column="0" Spacing="1">
@@ -37,9 +37,9 @@
                             TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}"
                             BorderColor="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
                             BorderWidth="1"
-                            CornerRadius="4"
-                            HeightRequest="28" Padding="12,0"
-                            FontSize="11" />
+                            CornerRadius="2"
+                            HeightRequest="24" WidthRequest="68" Padding="0"
+                            FontSize="10" FontAttributes="Bold" />
                 </Grid>
             </Border>
 
@@ -64,14 +64,14 @@
                         <Border Margin="0,0,0,6"
                                 BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                                 Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
-                                StrokeShape="RoundRectangle 6"
+                                StrokeShape="RoundRectangle 3"
                                 Padding="10,8">
                             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
                                 <!-- Indicador Visual de Severidade -->
                                 <Border Grid.Column="0"
-                                        WidthRequest="24" HeightRequest="24"
+                                        WidthRequest="22" HeightRequest="22"
                                         BackgroundColor="{Binding BadgeColor}"
-                                        StrokeShape="RoundRectangle 12"
+                                        StrokeShape="RoundRectangle 4"
                                         VerticalOptions="Start">
                                     <Label Text="{Binding SeverityIcon}"
                                            FontSize="12" FontAttributes="Bold"

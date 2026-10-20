@@ -18,12 +18,12 @@
                 <!-- Barra de Status e Seletor de Dispositivo -->
                 <Border BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                         Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
-                        StrokeShape="RoundRectangle 6"
+                        StrokeShape="RoundRectangle 3"
                         Padding="12,8">
                     <Grid RowDefinitions="Auto,Auto" RowSpacing="4">
                         <!-- Linha 1: Indicador + Seletor/Nome + Botão Atualizar -->
                         <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" VerticalOptions="Center">
-                            <BoxView Grid.Column="0" WidthRequest="8" HeightRequest="8" CornerRadius="4"
+                            <BoxView Grid.Column="0" WidthRequest="8" HeightRequest="8" CornerRadius="2"
                                      Color="{Binding ConnectionDotColor}"
                                      VerticalOptions="Center" />
 
@@ -55,7 +55,7 @@
                                     TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}"
                                     BorderColor="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
                                     BorderWidth="1"
-                                    CornerRadius="4"
+                                    CornerRadius="2"
                                     HeightRequest="24" WidthRequest="68" Padding="0"
                                     FontSize="10" FontAttributes="Bold"
                                     VerticalOptions="Center" HorizontalOptions="End" />
@@ -78,7 +78,7 @@
                             BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                             Stroke="{Binding BioBadgeColor}"
                             StrokeThickness="1"
-                            StrokeShape="RoundRectangle 6"
+                            StrokeShape="RoundRectangle 3"
                             Padding="10,8">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding BiometricCardTappedCommand}" />
@@ -102,7 +102,7 @@
                             BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                             Stroke="{Binding TouchBadgeColor}"
                             StrokeThickness="1"
-                            StrokeShape="RoundRectangle 6"
+                            StrokeShape="RoundRectangle 3"
                             Padding="10,8">
                         <VerticalStackLayout Spacing="2">
                             <Label Text="PAINEL TOUCH" FontSize="10" FontAttributes="Bold"
@@ -117,7 +117,7 @@
                 <!-- Sensor Capacitivo FOD (Simplificado) -->
                 <Border BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                         Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
-                        StrokeShape="RoundRectangle 6"
+                        StrokeShape="RoundRectangle 3"
                         Padding="14,10">
                     <VerticalStackLayout Spacing="8">
                         <Grid ColumnDefinitions="*,Auto">
@@ -134,7 +134,7 @@
                                    TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}"
                                    VerticalOptions="Center" />
                             <Border BackgroundColor="{Binding Node5BadgeColor}"
-                                    StrokeShape="RoundRectangle 4"
+                                    StrokeShape="RoundRectangle 2"
                                     Padding="12,4"
                                     VerticalOptions="Center">
                                 <Label Text="{Binding Node5StatusText}"
@@ -162,7 +162,7 @@
                 <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="6">
                     <Border Grid.Column="0" BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                             Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
-                            StrokeShape="RoundRectangle 6" Padding="8,6">
+                            StrokeShape="RoundRectangle 3" Padding="8,6">
                         <VerticalStackLayout Spacing="1">
                             <Label Text="RUÍDO TNOI" FontSize="9" FontAttributes="Bold" TextColor="{StaticResource MutedFgDark}" />
                             <Label Text="{Binding Telemetry.Tnoi}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource ForegroundDark}" />
@@ -170,7 +170,7 @@
                     </Border>
                     <Border Grid.Column="1" BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                             Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
-                            StrokeShape="RoundRectangle 6" Padding="8,6">
+                            StrokeShape="RoundRectangle 3" Padding="8,6">
                         <VerticalStackLayout Spacing="1">
                             <Label Text="FANTASMAS" FontSize="9" FontAttributes="Bold" TextColor="{StaticResource MutedFgDark}" />
                             <Label Text="{Binding Telemetry.Tmul}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource ForegroundDark}" />
@@ -178,7 +178,7 @@
                     </Border>
                     <Border Grid.Column="2" BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                             Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
-                            StrokeShape="RoundRectangle 6" Padding="8,6">
+                            StrokeShape="RoundRectangle 3" Padding="8,6">
                         <VerticalStackLayout Spacing="1">
                             <Label Text="UMIDADE" FontSize="9" FontAttributes="Bold" TextColor="{StaticResource MutedFgDark}" />
                             <Label Text="{Binding Telemetry.Twet}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource ForegroundDark}" />
@@ -186,7 +186,7 @@
                     </Border>
                     <Border Grid.Column="3" BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                             Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
-                            StrokeShape="RoundRectangle 6" Padding="8,6">
+                            StrokeShape="RoundRectangle 3" Padding="8,6">
                         <VerticalStackLayout Spacing="1">
                             <Label Text="SCRUB POS" FontSize="9" FontAttributes="Bold" TextColor="{StaticResource MutedFgDark}" />
                             <Label Text="{Binding Telemetry.LastScrubPos}" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource ForegroundDark}" />
@@ -197,7 +197,7 @@
                 <!-- Ações de Manutenção - Estilo Exato dos Botões do Hub -->
                 <Border BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                         Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
-                        StrokeShape="RoundRectangle 6"
+                        StrokeShape="RoundRectangle 3"
                         Padding="12,10">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="AÇÕES DE MANUTENÇÃO"
@@ -213,7 +213,7 @@
                                     TextColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
                                     BorderColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
                                     BorderWidth="1"
-                                    CornerRadius="6"
+                                    CornerRadius="3"
                                     FontSize="11" FontAttributes="Bold"
                                     HeightRequest="42" Padding="4,0" Margin="0"
                                     HorizontalOptions="Fill" VerticalOptions="Fill" />
@@ -226,7 +226,7 @@
                                     TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}"
                                     BorderColor="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
                                     BorderWidth="1"
-                                    CornerRadius="6"
+                                    CornerRadius="3"
                                     FontSize="11"
                                     HeightRequest="42" Padding="4,0" Margin="0"
                                     HorizontalOptions="Fill" VerticalOptions="Fill" />
@@ -239,7 +239,7 @@
                                     TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}"
                                     BorderColor="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
                                     BorderWidth="1"
-                                    CornerRadius="6"
+                                    CornerRadius="3"
                                     FontSize="11"
                                     HeightRequest="42" Padding="4,0" Margin="0"
                                     HorizontalOptions="Fill" VerticalOptions="Fill" />
@@ -250,7 +250,7 @@
                                     Command="{Binding RebootCommand}"
                                     BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}"
                                     TextColor="{StaticResource PrimaryFgLight}"
-                                    CornerRadius="6"
+                                    CornerRadius="3"
                                     FontSize="11" FontAttributes="Bold"
                                     HeightRequest="42" Padding="4,0" Margin="0"
                                     HorizontalOptions="Fill" VerticalOptions="Fill" />

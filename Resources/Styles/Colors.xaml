@@ -16,37 +16,37 @@
     <Color x:Key="AccentLight">#1F66E0</Color>
     <Color x:Key="AccentDark">#4D88FF</Color>
 
-    <!-- Background: hsl(228 33% 97%) Light / hsl(220 6% 5%) Dark (Graphite Ink) -->
+    <!-- Background: Suavizado para grafite/carvão em vez de preto puro -->
     <Color x:Key="BackgroundLight">#F5F6FA</Color>
-    <Color x:Key="BackgroundDark">#0C0D0E</Color>
+    <Color x:Key="BackgroundDark">#16181E</Color>
 
-    <!-- Card / Surface: hsl(0 0% 100%) Light / hsl(220 5% 10%) Dark -->
+    <!-- Card / Surface: Superfície elegante com contraste suave -->
     <Color x:Key="CardLight">#FFFFFF</Color>
-    <Color x:Key="CardDark">#18191B</Color>
+    <Color x:Key="CardDark">#21232B</Color>
 
-    <!-- Sidebar / TopBar: hsl(0 0% 100%) Light / hsl(220 6% 7%) Dark -->
+    <!-- Sidebar / TopBar -->
     <Color x:Key="SidebarLight">#FFFFFF</Color>
-    <Color x:Key="SidebarDark">#111213</Color>
+    <Color x:Key="SidebarDark">#1B1D24</Color>
 
     <!-- Foreground: hsl(228 41% 7%) Light / hsl(210 20% 98%) Dark -->
     <Color x:Key="ForegroundLight">#0A0D1A</Color>
     <Color x:Key="ForegroundDark">#F8FAFC</Color>
 
-    <!-- Muted / Secondary: hsl(225 27% 94%) Light / hsl(220 5% 15%) Dark -->
+    <!-- Muted / Secondary -->
     <Color x:Key="SecondaryLight">#ECEEF4</Color>
-    <Color x:Key="SecondaryDark">#242629</Color>
+    <Color x:Key="SecondaryDark">#2C2F3A</Color>
     <Color x:Key="MutedBoxLight">#F2F4F8</Color>
-    <Color x:Key="MutedBoxDark">#1E2023</Color>
+    <Color x:Key="MutedBoxDark">#282A34</Color>
 
     <!-- Muted Foreground: hsl(226 17% 35%) Light / hsl(220 6% 70%) Dark -->
     <Color x:Key="MutedFgLight">#4A5068</Color>
     <Color x:Key="MutedFgDark">#AEB2BA</Color>
 
-    <!-- Border & Input: hsl(223 25% 89%) Light / hsl(220 5% 20%) Dark -->
+    <!-- Border & Input -->
     <Color x:Key="BorderLight">#DBE0EC</Color>
-    <Color x:Key="BorderDark">#303236</Color>
+    <Color x:Key="BorderDark">#383C48</Color>
     <Color x:Key="InputLight">#CFD6E6</Color>
-    <Color x:Key="InputDark">#383A3F</Color>
+    <Color x:Key="InputDark">#3A3E4E</Color>
 
     <!-- Operational Status Tokens (Success, Warning, Destructive, Info, Violet, Terminal) -->
     <Color x:Key="Success">#10B981</Color>
@@ -87,9 +87,9 @@
     <Color x:Key="PrimaryDarkText">#1A0700</Color>
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
-    <Color x:Key="OffBlack">#0C0D0E</Color>
+    <Color x:Key="OffBlack">#16181E</Color>
     <Color x:Key="FrameBackgroundLight">#FFFFFF</Color>
-    <Color x:Key="FrameBackgroundDark">#18191B</Color>
+    <Color x:Key="FrameBackgroundDark">#21232B</Color>
     <Color x:Key="TextSecondaryLight">#4A5068</Color>
     <Color x:Key="TextSecondaryDark">#AEB2BA</Color>
     <Color x:Key="WarningBackgroundLight">#FDF3E7</Color>
