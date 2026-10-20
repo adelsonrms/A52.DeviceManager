@@ -10,11 +10,31 @@ namespace A52.DeviceManager.Services;
 public class AdbDeviceService : IA52DeviceService
 {
     private readonly string _targetSerial;
+    private bool _bridgeVerified;
     public event EventHandler<TspTelemetry>? TelemetryUpdated;
 
     public AdbDeviceService(string targetSerial = "RQ8T601E01X")
     {
         _targetSerial = targetSerial;
+    }
+
+    public async Task EnsureBridgeRunningAsync(CancellationToken ct = default)
+    {
+        try
+        {
+            var (_, psOut, _) = await RunAdbAsync("shell \"ps -A | grep a52-daemon\"", ct);
+            if (!psOut.Contains("a52-daemon"))
+            {
+                string localScript = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "a52-daemon.sh");
+                if (File.Exists(localScript))
+                {
+                    await RunAdbAsync($"push \"{localScript}\" /data/local/tmp/a52-daemon.sh", ct);
+                }
+                await RunAdbAsync("shell \"dos2unix /data/local/tmp/a52-daemon.sh 2>/dev/null || sed -i 's/\\r$//' /data/local/tmp/a52-daemon.sh; chmod 755 /data/local/tmp/a52-daemon.sh; nohup sh /data/local/tmp/a52-daemon.sh >/dev/null 2>&1 &\"", ct);
+            }
+            _bridgeVerified = true;
+        }
+        catch { }
     }
 
     private async Task<(int ExitCode, string StdOut, string StdErr)> RunAdbAsync(string args, CancellationToken ct = default)
@@ -44,6 +64,11 @@ public class AdbDeviceService : IA52DeviceService
     {
         try
         {
+            if (!_bridgeVerified)
+            {
+                _ = Task.Run(() => EnsureBridgeRunningAsync(ct), ct);
+            }
+
             var (_, hwRaw, _) = await RunAdbAsync("shell cat /sys/class/sec/tsp/hw_param", ct);
             var (_, sensRaw, _) = await RunAdbAsync("shell cat /sys/class/sec/tsp/sensitivity_mode", ct);
             var (_, slotsRaw, _) = await RunAdbAsync("shell \"dumpsys input | grep 'inUse=true' | wc -l\"", ct);
@@ -86,6 +111,7 @@ public class AdbDeviceService : IA52DeviceService
         }
         catch
         {
+            _bridgeVerified = false;
             var disconnected = new TspTelemetry { DeviceConnected = false, DeviceSerial = _targetSerial };
             TelemetryUpdated?.Invoke(this, disconnected);
             return disconnected;
