@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:A52.DeviceManager.Views"
+             xmlns:vm="clr-namespace:A52.DeviceManager.ViewModels"
+             xmlns:models="clr-namespace:A52.DeviceManager.Models"
+             x:Class="A52.DeviceManager.Views.LogsPage"
+             x:DataType="vm:LogsViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+             Title="Logs">
+
+    <Grid RowDefinitions="Auto,*" RowSpacing="0">
+        <!-- Cabeçalho Global InfraAgent Hub -->
+        <views:HeaderView Grid.Row="0" />
+
+        <!-- Conteúdo Principal -->
+        <Grid Grid.Row="1" RowDefinitions="Auto,*" Padding="14,10" RowSpacing="10" MaximumWidthRequest="560">
+            <!-- Barra de Ações de Log -->
+            <Border Grid.Row="0"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                    Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                    StrokeShape="RoundRectangle 6"
+                    Padding="12,8">
+                <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                    <VerticalStackLayout Grid.Column="0" Spacing="1">
+                        <Label Text="HISTÓRICO DE EVENTOS"
+                               FontSize="11" FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}" />
+                        <Label Text="Eventos de hardware, ruído e comandos"
+                               FontSize="10"
+                               TextColor="{StaticResource MutedFgDark}" />
+                    </VerticalStackLayout>
+
+                    <Button Grid.Column="1" Text="Limpar"
+                            Command="{Binding ClearCommand}"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource SecondaryLight}, Dark={StaticResource SecondaryDark}}"
+                            TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}"
+                            BorderColor="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                            BorderWidth="1"
+                            CornerRadius="4"
+                            HeightRequest="28" Padding="12,0"
+                            FontSize="11" />
+                </Grid>
+            </Border>
+
+            <!-- Lista de Logs -->
+            <CollectionView Grid.Row="1"
+                            ItemsSource="{Binding Entries}"
+                            SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Spacing="8" VerticalOptions="Center" HorizontalOptions="Center" Padding="20">
+                        <Label Text="Nenhum evento registrado"
+                               FontSize="13" FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="{StaticResource MutedFgDark}" />
+                        <Label Text="Eventos de biometria, ruído e comandos serão listados aqui."
+                               FontSize="11"
+                               HorizontalOptions="Center"
+                               TextColor="{StaticResource MutedFgDark}" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:DeviceLogEntry">
+                        <Border Margin="0,0,0,6"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                                Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                                StrokeShape="RoundRectangle 6"
+                                Padding="10,8">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <!-- Indicador Visual de Severidade -->
+                                <Border Grid.Column="0"
+                                        WidthRequest="24" HeightRequest="24"
+                                        BackgroundColor="{Binding BadgeColor}"
+                                        StrokeShape="RoundRectangle 12"
+                                        VerticalOptions="Start">
+                                    <Label Text="{Binding SeverityIcon}"
+                                           FontSize="12" FontAttributes="Bold"
+                                           TextColor="White"
+                                           HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+
+                                <!-- Conteúdo do Log -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Grid.Column="0" Text="{Binding Title}"
+                                               FontSize="12" FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light={StaticResource ForegroundLight}, Dark={StaticResource ForegroundDark}}" />
+                                        <Label Grid.Column="1" Text="{Binding TimeFormatted}"
+                                               FontSize="10"
+                                               TextColor="{StaticResource MutedFgDark}" />
+                                    </Grid>
+                                    <Label Text="{Binding Details}"
+                                           FontSize="11"
+                                           TextColor="{StaticResource MutedFgDark}"
+                                           LineBreakMode="WordWrap" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+</ContentPage>

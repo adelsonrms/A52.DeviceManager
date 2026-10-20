@@ -76,16 +76,24 @@
 
                 <!-- Status dos Subsistemas (Biometria e Touch) em Linha Única -->
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
-                    <!-- Card Bio -->
+                    <!-- Card Bio (Clicável para Reinício Rápido se Travada) -->
                     <Border Grid.Column="0"
                             BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                             Stroke="{Binding BioBadgeColor}"
                             StrokeThickness="1"
                             StrokeShape="RoundRectangle 6"
                             Padding="10,8">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BiometricCardTappedCommand}" />
+                        </Border.GestureRecognizers>
                         <VerticalStackLayout Spacing="2">
-                            <Label Text="BIOMETRIA (FOD)" FontSize="10" FontAttributes="Bold"
-                                   TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Grid.Column="0" Text="BIOMETRIA (FOD)" FontSize="10" FontAttributes="Bold"
+                                       TextColor="{AppThemeBinding Light={StaticResource MutedFgLight}, Dark={StaticResource MutedFgDark}}" />
+                                <Label Grid.Column="1" Text="REINICIAR ❯" FontSize="9" FontAttributes="Bold"
+                                       TextColor="{Binding BioBadgeColor}"
+                                       IsVisible="{Binding Telemetry.IsBiometricLocked}" />
+                            </Grid>
                             <Label Text="{Binding Telemetry.BiometricStatusText}"
                                    FontSize="12" FontAttributes="Bold"
                                    TextColor="{Binding BioBadgeColor}" />

@@ -1,5 +1,3 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
 namespace A52.DeviceManager;
 
 public partial class App : Application
@@ -11,6 +9,13 @@ public partial class App : Application
 
 	protected override Window CreateWindow(IActivationState? activationState)
 	{
-		return new Window(new AppShell());
+		var window = new Window(new AppShell());
+#if WINDOWS
+		window.Width = 470;
+		window.Height = 780;
+		window.MinimumWidth = 420;
+		window.MinimumHeight = 650;
+#endif
+		return window;
 	}
 }

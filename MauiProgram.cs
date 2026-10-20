@@ -26,8 +26,11 @@ public static class MauiProgram
         builder.Services.AddSingleton<A52.DeviceManager.Platforms.Windows.WindowsTrayService>();
 #endif
 
+        builder.Services.AddSingleton<DeviceLogService>();
         builder.Services.AddSingleton<HomeViewModel>();
         builder.Services.AddSingleton<HomePage>();
+        builder.Services.AddSingleton<LogsViewModel>();
+        builder.Services.AddSingleton<LogsPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

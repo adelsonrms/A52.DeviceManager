@@ -6,9 +6,13 @@
     xmlns:views="clr-namespace:A52.DeviceManager.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate views:HomePage}"
-        Route="HomePage" />
+    <TabBar>
+        <Tab Title="Monitor" Route="HomePage">
+            <ShellContent ContentTemplate="{DataTemplate views:HomePage}" />
+        </Tab>
+        <Tab Title="Logs" Route="LogsPage">
+            <ShellContent ContentTemplate="{DataTemplate views:LogsPage}" />
+        </Tab>
+    </TabBar>
 
 </Shell>
